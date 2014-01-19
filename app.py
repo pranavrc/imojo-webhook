@@ -6,7 +6,7 @@ from twitter_keys import consumer_key, consumer_secret, oauth_token, oauth_secre
 
 app = Flask(__name__)
 
-@app.route('/')
+@app.route('/', methods=['GET', 'POST'])
 
 def index():
     if request.method == 'GET':
@@ -14,6 +14,7 @@ def index():
     if request.method == 'POST':
         status = request.form['buyer_name'] + '(' + request.form['buyer'] + ') claimed ' + request.form['offer_title']
         twitter_post(consumer_key, consumer_secret, oauth_token, oauth_secret, status)
+        return status
 
 def twitter_post(consumer_key, consumer_secret, oauth_token, oauth_secret, post_status):
     t = twitter.Twitter(auth = twitter.OAuth(oauth_token, oauth_secret, consumer_key, consumer_secret))
